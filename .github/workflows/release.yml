@@ -28,26 +28,26 @@ jobs:
       matrix:
         build: [x86_64-linux, aarch64-linux, x86_64-macos, aarch64-macos, x86_64-windows, x86_64-win-gnu]
         include:
-          - build: x86_64-linux
-            os: ubuntu-20.04
-            rust: stable
-            target: x86_64-unknown-linux-gnu
-            cross: false
           - build: aarch64-linux
             os: ubuntu-20.04
             rust: stable
             target: aarch64-unknown-linux-gnu
             cross: true
-          - build: x86_64-macos
-            os: macos-latest
-            rust: stable
-            target: x86_64-apple-darwin
-            cross: false
           - build: aarch64-macos
             os: macos-latest
             rust: stable
             target: aarch64-apple-darwin
             cross: true
+          - build: x86_64-linux
+            os: ubuntu-20.04
+            rust: stable
+            target: x86_64-unknown-linux-gnu
+            cross: false
+          - build: x86_64-macos
+            os: macos-latest
+            rust: stable
+            target: x86_64-apple-darwin
+            cross: false
           - build: x86_64-windows
             os: windows-2019
             rust: stable
@@ -69,7 +69,7 @@ jobs:
           git config --global pack.deltaCacheSize "512m"
 
       - name: Install python 3.10
-        if: contains(matrix.build, 'windows') || contains(matrix.build, 'aarch64-linux')
+        # if: contains(matrix.build, 'windows') || contains(matrix.build, 'aarch64-linux')
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -140,7 +140,7 @@ jobs:
   publish:
     name: Publish
     needs: [dist]
-    if: contains(fromJson('["push", "schedule"]'), github.event_name) && startsWith(github.ref, 'refs/tags/')
+    # if: contains(fromJson('["push", "schedule"]'), github.event_name) && startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
