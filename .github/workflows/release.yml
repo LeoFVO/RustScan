@@ -65,11 +65,11 @@ jobs:
         run: |
           git config --global pack.windowMemory "100m"
           git config --global pack.packSizeLimit "100m"
-          git config --global pack.threads "1"
+          git config --global pack.threads "1" 
           git config --global pack.deltaCacheSize "512m"
 
-      - name: Install python 3.10 for windows
-        if: contains(matrix.build, ['windows', 'aarch64-linux']) # Windows is missing some dependencies
+      - name: Install python 3.10
+        if: contains(matrix.build, 'windows') || contains(matrix.build, 'aarch64-linux')
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -129,7 +129,7 @@ jobs:
           fi
 
           if [[ "${{ matrix.build }}" =~ "linux" ]]; then
-            cp "target/${{ matrix.target }}/debian/rustscan_${TAG}_amd64.deb" "dist/"
+            cp "target/${{ matrix.target }}/debian/rustscan_${TAG}_amd64.deb" "dist/" || true
           fi
 
       - uses: actions/upload-artifact@v4.3.3
@@ -149,7 +149,9 @@ jobs:
           submodules: false
 
       - uses: actions/download-artifact@v4
-
+        # with:
+        #   path: dist
+      # - run: ls -al ./dist
       - run: ls -al bins-*
 
       - name: Calculate tag name
@@ -181,7 +183,7 @@ jobs:
               chmod +x tmp/$pkgname/$BIN_NAME$exe
 
               if [[ $platform =~ "linux" ]]; then
-                  mv "bins-$platform/rustscan_${TAG}_amd64.deb" dist/
+                  mv "bins-$platform/rustscan_${TAG}_amd64.deb" dist/ || true
               fi
 
               if [ "$exe" = "" ]; then
