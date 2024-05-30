@@ -1,4 +1,4 @@
-name: Release
+name: Release - Distribute binaries
 on:
   # If we want to make release using github interface.
   # release:
@@ -30,16 +30,16 @@ jobs:
       matrix:
         build: [x86_64-linux, aarch64-linux, x86_64-macos, aarch64-macos, x86_64-windows, x86_64-win-gnu]
         include:
-          # - build: aarch64-linux
-          #   os: ubuntu-20.04
-          #   rust: stable
-          #   target: aarch64-unknown-linux-gnu
-          #   cross: true
           - build: aarch64-macos
             os: macos-latest
             rust: stable
             target: aarch64-apple-darwin
             cross: true
+          # - build: aarch64-linux
+          #   os: ubuntu-20.04
+          #   rust: stable
+          #   target: aarch64-unknown-linux-gnu
+          #   cross: true
           - build: x86_64-linux
             os: ubuntu-20.04
             rust: stable
