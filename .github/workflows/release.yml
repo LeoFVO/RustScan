@@ -96,7 +96,7 @@ jobs:
       - name: Run cargo test
         uses: actions-rs/cargo@v1
         env:
-          PATH: /opt/hostedtoolcache/Python/3.10.*/x64/bin:${{ env.PATH }}
+          PATH: "$pythonLocation:${{ env.PATH }}"
         with:
           use-cross: ${{ matrix.cross }}
           command: test
