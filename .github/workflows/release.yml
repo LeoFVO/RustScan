@@ -28,8 +28,8 @@ jobs:
     strategy:
       fail-fast: false # don't fail other jobs if one fails
       matrix:
-        # build: [x86_64-linux, aarch64-linux, x86_64-macos, aarch64-macos, x86_64-windows, x86_64-win-gnu]
-        build: [x86_64-linux, x86_64-macos, aarch64-macos, x86_64-windows, x86_64-win-gnu]
+        build: [x86_64-linux, aarch64-linux, x86_64-macos, aarch64-macos, x86_64-windows, x86_64-win-gnu]
+        # build: [x86_64-linux, x86_64-macos, aarch64-macos, x86_64-windows, x86_64-win-gnu]
         include:
           - build: aarch64-macos
             os: macos-latest
@@ -70,6 +70,10 @@ jobs:
           git config --global pack.packSizeLimit "100m"
           git config --global pack.threads "1" 
           git config --global pack.deltaCacheSize "512m"
+          
+      - name: Install dependencies
+        if: contains(matrix.build, 'aarch64-linux') # Windows is missing some dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
 
       - name: Install python 3.10
         uses: actions/setup-python@v5
