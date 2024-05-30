@@ -212,13 +212,13 @@ jobs:
       #   env:
       #     COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
 
-      - name: Install ${{ matrix.rust }} toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: ${{ matrix.rust }}
-          target: ${{ matrix.target }}
-          override: true
+      # - name: Install ${{ matrix.rust }} toolchain
+      #   uses: actions-rs/toolchain@v1
+      #   with:
+      #     profile: minimal
+      #     toolchain: ${{ matrix.rust }}
+      #     target: ${{ matrix.target }}
+      #     override: true
 
       - run: cargo publish --token ${CRATES_TOKEN}
         env:
