@@ -40,7 +40,7 @@ jobs:
             os: ubuntu-20.04
             rust: stable
             target: aarch64-unknown-linux-gnu
-            cross: false
+            cross: true
           - build: x86_64-linux
             os: ubuntu-20.04
             rust: stable
@@ -70,7 +70,7 @@ jobs:
           git config --global pack.packSizeLimit "100m"
           git config --global pack.threads "1" 
           git config --global pack.deltaCacheSize "512m"
-          
+
       - name: Install dependencies
         if: contains(matrix.build, 'aarch64-linux') # Windows is missing some dependencies
         run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
