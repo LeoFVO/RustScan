@@ -22,8 +22,8 @@ env:
   BREW_TAP: RustScan/homebrew-tap
 
 jobs:
-  dist:
-    name: Dist
+  build:
+    name: Build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false # don't fail other jobs if one fails
@@ -105,6 +105,7 @@ jobs:
 
       - name: Calculate tag name
         if: contains(matrix.build, 'linux')
+        shell: bash
         run: |
           name=dev
           if [[ ${GITHUB_REF} =~ refs/tags/[0-9]+.[0-9]+.[0-9]+ ]]; then
@@ -114,6 +115,7 @@ jobs:
         id: tagname
 
       - name: Build and package artifacts
+        shell: bash
         run: |
           mkdir dist
           if [[ "${{ matrix.build }}" =~ "windows" ]]; then
@@ -133,9 +135,9 @@ jobs:
           name: bins-${{ matrix.build }}
           path: dist
 
-  publish:
-    name: Publish
-    needs: [dist]
+  package:
+    name: Package
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
